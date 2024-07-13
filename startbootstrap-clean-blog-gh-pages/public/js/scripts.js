@@ -28,27 +28,116 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 })
 
-$(document).ready(function () {
-    $('#mybutton').on('click', function (e) {
-        e.preventDefault();
-        $('#card-holder .row').append(
-            `<div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                <div class="text-dark card card-has-bg click-col" style="background-image:url('https://source.unsplash.com/600x900/?computer,design')">
-                    <img alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?" class="card-img d-none" src="https://source.unsplash.com/600x900/?computer,design">
-                    <div class="card-img-overlay d-flex flex-column">
-                        <div class="card-body">
-                            <small class="card-meta mb-2">Thought Leadership</small>
-                            <h4 class="card-title mt-0">
-                                <a class="text-dark" href="https://creativemanner.com">Design Studio Lorem Ipsum Sit Amet Consectetur dipisi?</a>
-                            </h4>
-                            <small><i class="far fa-clock"></i> October 15, 2020</small>
-                        </div>
-                        <div class="card-footer">
-                            <a class="btn btn-dark button-round" href="form">Add Post</a>
-                        </div>
-                    </div>
+// $(document).ready(function () {
+//     $('#mybutton').on('click', function (e) {
+//         e.preventDefault();
+//         $('#card-holder .row').append(
+//             `<div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+//                 <div class="text-dark card card-has-bg click-col" style="background-image:url('https://source.unsplash.com/600x900/?computer,design')">
+//                     <img alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?" class="card-img d-none" src="https://source.unsplash.com/600x900/?computer,design">
+//                     <div class="card-img-overlay d-flex flex-column">
+//                         <div class="card-body">
+//                             <small class="card-meta mb-2">Thought Leadership</small>
+//                             <h4 class="card-title mt-0">
+//                                 <a class="text-dark" href="https://creativemanner.com">Design Studio Lorem Ipsum Sit Amet Consectetur dipisi?</a>
+//                             </h4>
+//                             <small><i class="far fa-clock"></i> October 15, 2020</small>
+//                         </div>
+//                         <div class="card-footer">
+//                             <a class="btn btn-dark button-round" href="form">Add Post</a>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>`
+//         );
+//     });
+// });
+
+// function createCardHtml(card) {
+//     return `
+//         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+//                 <div class="text-dark card card-has-bg click-col" style="background-image:url('https://source.unsplash.com/600x900/?computer,design')">
+//                     <img alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?" class="card-img d-none" src="https://source.unsplash.com/600x900/?computer,design">
+//                     <div class="card-img-overlay d-flex flex-column">
+//                         <div class="card-body">
+//                             <small class="card-meta mb-2">Thought Leadership</small>
+//                             <h4 class="card-title mt-0">
+//                                 <a class="text-dark" href="https://creativemanner.com">Design Studio Lorem Ipsum Sit Amet Consectetur dipisi?</a>
+//                             </h4>
+//                             <small><i class="far fa-clock"></i> October 15, 2020</small>
+//                         </div>
+//                         <div class="card-footer">
+//                             <a class="btn btn-dark button-round" href="form">Add Post</a>
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//     `;
+// }
+
+// // Fetch existing cards HTML and append to the card-container
+// $.get('/cards', function(cardHtml) {
+//     $('#card-container').append(cardHtml);
+// });
+
+// // Handle "Create post" click event
+// $('#mybutton').click(function(event) {
+//     event.preventDefault(); // Prevent the default link behavior
+
+//     const newCard = { title: 'Card 2', content: 'Content for card 2' };
+    
+//     // Create new card HTML and append to card-container
+//     const newCardHtml = createCardHtml(newCard);
+//     $('#card-container').append(newCardHtml);
+// });
+
+
+// $(document).ready(function() {
+//     // Function to create a card HTML from card data
+function createCardHtml(card) {
+    return `
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+        <div class="text-dark card card-has-bg click-col" style="background-image:url('https://source.unsplash.com/600x900/?computer,design')">
+            <img alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?" class="card-img d-none" src="https://source.unsplash.com/600x900/?computer,design">
+            <div class="card-img-overlay d-flex flex-column">
+                <div class="card-body">
+                    <small class="card-meta mb-2">Thought Leadership</small>
+                    <h4 class="card-title mt-0">
+                        <a class="text-dark" href="https://creativemanner.com">${card.title}</a>
+                    </h4>
+                    <small><i class="far fa-clock"></i> October 15, 2020</small>
                 </div>
-            </div>`
-        );
+                <div class="card-footer">
+                    <a class="btn btn-dark button-round" href="form">Add Post</a>
+                </div>
+            </div>
+        </div>
+    </div>`;
+}
+
+// Fetch existing cards HTML and append to the card-container
+$.get('/cards', function(cardHtml) {
+    $('#card-container').append(cardHtml);
+});
+
+// Handle "Create post" click event
+$('#mybutton').click(function(event) {
+    event.preventDefault(); // Prevent the default link behavior
+
+    const newCard = { title: 'Card 2', content: 'Content for card 2' };
+    
+    // Send new card data to the server
+    $.ajax({
+        url: '/add-card',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(newCard),
+        success: function(response) {
+            if (response.success) {
+                // Create new card HTML and append to card-container
+                const newCardHtml = createCardHtml(newCard);
+                $('#card-container').append(newCardHtml);
+            }
+        }
     });
 });

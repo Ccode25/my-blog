@@ -47,7 +47,6 @@
 // app.listen(port, () => {
 //   console.log(`Server running on ${port}.`)
 // })
-
 import express from "express";
 import bodyParser from "body-parser";
 
@@ -55,10 +54,13 @@ const app = express();
 const port = 3000;
 
 let postData = {
-  titlePost: "Create Blog",
+  titlePost: "Featured Blog",
   subTitlePost: "Subtitle",
   contentPost: ""
 };
+
+// Define the cards array at the top
+let cards = []
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
@@ -91,13 +93,33 @@ app.post("/", (req, res) => {
 
   postData = {
     titlePost: title,
-    subTitlePost: subTitle,
+    subTitlePost: subTitle, 
     contentPost: content
   };
   
   console.log(title, subTitle, content);
   res.render('index.ejs', postData);
 });
+
+app.get('/cards', (req, res) => {
+  
+  res.render('cards', { cards });
+  console.log(('cards', { cards }));
+});
+
+// app.get('/cards-data', (req, res) => {
+//   res.json(cards);
+//   console.log(cards);
+// });
+
+
+app.post('/add-card', (req, res) => {
+  const newCard = postData;
+  cards.push(newCard);
+  
+  res.json({ success: true });
+});
+
 
 app.listen(port, () => {
   console.log(`Server running on ${port}.`);
