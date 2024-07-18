@@ -92,8 +92,10 @@ window.addEventListener('DOMContentLoaded', () => {
 // });
 
 
-// $(document).ready(function() {
-//     // Function to create a card HTML from card data
+$(document).ready(function() {
+
+
+// Function to create HTML for a card
 function createCardHtml(card) {
     return `
     <div class="col-lg-4 col-md-6 col-sm-12 mb-4" id="card-${card.id}">
@@ -116,23 +118,28 @@ function createCardHtml(card) {
     </div>`;
 }
 
-$(document).ready(function() {
     // Fetch existing cards HTML and append to the card-container
     $.get('/cards-data', function(cardsData) {
         cardsData.forEach(card => {
+            // Create card HTML using the card data
             const cardHtml = createCardHtml(card);
+            // Append the card HTML to the card container
             $('#card-container').append(cardHtml);
         });
     });
 
     // Handle "Create post" click event
     $('#mybutton').click(function(event) {
+        
         event.preventDefault(); // Prevent the default link behavior
-
+       
         // Extract data from form inputs
         const title = $('#blogTitle').val();
         const content = $('#blogContent').val();
 
+       
+
+        // Create a new card object with the extracted data
         const newCard = {
             title: title,
             content: content
@@ -156,6 +163,7 @@ $(document).ready(function() {
 
     // Handle delete card click event
     $('#card-container').on('click', '.delete-card', function() {
+        // Get the ID of the card to be deleted
         const cardId = $(this).data('id');
 
         // Send delete request to the server
