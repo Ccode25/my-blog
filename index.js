@@ -1,64 +1,53 @@
-// import express, { urlencoded } from "express";
-// import bodyParser from "body-parser";
 
-
-// const app = express();
-// const port = 3000;
-
-
-
-// app.use(bodyParser.urlencoded({extended: true}))
-// app.set('view engine', 'ejs');
-// app.use(express.static("public"))
-
-
-
-// app.get("/", (req, res) => {
-//   res.render('index.ejs');
-// })
-
-// app.get("/about", (req, res) => {
-//   res.render('about.ejs');
-// })
-
-// app.get("/post", (req, res) => {
-//   res.render('post.ejs');
-// })
-
-
-// app.get("/contact", (req, res) => {
-//   res.render('contact.ejs');
-// })
-
-// app.get("/form", (req, res) => {
-//   res.render('blog.ejs');
-// })
-
-// app.post("/form", (req, res) => {
-//   let title = req.body["blogTitle"]
-//   console.log(title);
-//   res.render("post.ejs", {titlePost: title})
-  
-// })
-
-
-// app.listen(port, () => {
-//   console.log(`Server running on ${port}.`)
-// })
 import express from "express";
 import bodyParser from "body-parser";
 
 const app = express();
 const port = 3000;
 
+// Initial post data for rendering pages
 let postData = {
   titlePost: "Featured Blog",
   subTitlePost: "Subtitle",
-  contentPost: ""
+  contentPost: "This is the content of the featured blog post."
 };
 
-// Define the cards array at the top
+// Define the cards array to store card data
 let cards = [];
+
+// Function to merge postData and cards into mergedData
+const getMergedData = () => {
+  let mergedData = [
+    { id: 0, title: postData.titlePost, content: postData.contentPost }
+  ];
+
+  cards.forEach(card => {
+    mergedData.push({
+      id: card.id,
+      title: card.title,
+      content: card.content
+    });
+  });
+
+  return mergedData;
+};
+
+// Add postData to the cards array
+const addPostDataToCards = () => {
+  const postId = Date.now(); // Generate a unique ID for the post
+  cards.push({
+    id: postId,
+    title: postData.titlePost,
+    content: postData.contentPost
+  });
+};
+
+// Call the function to add postData to cards
+addPostDataToCards();
+
+// Example to log mergedData
+console.log(getMergedData());
+
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json()); // To parse JSON bodies
@@ -96,7 +85,7 @@ app.post("/", (req, res) => {
     contentPost: content
   };
   
-  console.log(title, subTitle, content);
+  addPostDataToCards();
   res.render('index.ejs', postData);
 });
 
