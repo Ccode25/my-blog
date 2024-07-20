@@ -108,12 +108,14 @@ function createCardHtml(card) {
                     <small><i class="far fa-clock"></i> October 15, 2020</small>
                 </div>
                 <div class="card-footer">
+                    <a class="btn btn-dark button-round" href="">Read</a>
                     <button class="btn btn-danger button-round delete-card" data-id="${card.id}">Delete</button>
                 </div>
             </div>
         </div>
-    </div>`;
+    </div>`; 
 }
+
 
 $(document).ready(function() {
     // Fetch existing cards HTML and append to the card-container
