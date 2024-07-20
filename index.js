@@ -31,23 +31,6 @@ const getMergedData = () => {
   return mergedData;
 };
 
-// Add postData to the cards array
-const addPostDataToCards = () => {
-  const postId = Date.now(); // Generate a unique ID for the post
-  cards.push({
-    id: postId,
-    title: postData.titlePost,
-    content: postData.contentPost
-  });
-};
-
-// Call the function to add postData to cards
-addPostDataToCards();
-
-// Example to log mergedData
-console.log(getMergedData());
-
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
@@ -55,27 +38,27 @@ app.use(express.static("public"));
 
 // Route to render the home page with post data
 app.get("/", (req, res) => {
-  res.render('index.ejs', postData);
+  res.render('index', postData);
 });
 
 // Route to render the about page with post data
 app.get("/about", (req, res) => {
-  res.render('about.ejs', postData);
+  res.render('about', postData);
 });
 
 // Route to render the post page with post data
 app.get("/post", (req, res) => {
-  res.render('post.ejs', postData);
+  res.render('post', postData);
 });
 
 // Route to render the contact page with post data
 app.get("/contact", (req, res) => {
-  res.render('contact.ejs', postData);
+  res.render('contact', postData);
 });
 
 // Route to render the form page
 app.get("/form", (req, res) => {
-  res.render('blog.ejs');
+  res.render('blog');
 });
 
 // Route to handle form submissions and update post data
@@ -87,22 +70,30 @@ app.post("/", (req, res) => {
     subTitlePost: blogSubTitle,
     contentPost: blogContent
   };
-  
-  addPostDataToCards();
-  res.render('index.ejs', postData);
+
+  // Check for duplicate before adding to the cards array
+  const existingCard = cards.find(card => card.title === blogTitle && card.content === blogContent);
+  if (!existingCard) {
+    cards.push({
+      id: Date.now(),
+      title: blogTitle,
+      content: blogContent
+    });
+  }
+
+  res.render('index', postData);
 });
 
-// Route to render the cards page with mergedData
 // Route to render the cards page with mergedData
 app.get('/cards', (req, res) => {
   const mergedData = getMergedData();
   res.render('cards', { cards: mergedData });
 });
 
-
 // API route to send card data as JSON
 app.get('/cards-data', (req, res) => {
   res.json(cards);
+  console.log(cards);
 });
 
 // API route to add a new card
