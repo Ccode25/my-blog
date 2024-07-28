@@ -17,13 +17,14 @@ let cards = [];
 // Function to merge postData and cards into mergedData
 const getMergedData = () => {
   let mergedData = [
-    { id: 0, title: postData.titlePost, content: postData.contentPost }
+    { id: 0, title: postData.titlePost, subtitle: postData.subTitlePost, content: postData.contentPost }
   ];
 
   cards.forEach(card => {
     mergedData.push({
       id: card.id,
       title: card.title,
+      subtitle: card.subtitle,
       content: card.content
     });
   });
@@ -62,7 +63,7 @@ app.get("/form", (req, res) => {
 });
 
 // Route to handle form submissions and update post data
-app.post("/", (req, res) => {
+app.post("/submit-form", (req, res) => {
   const { blogTitle, blogSubTitle, blogContent } = req.body;
 
   postData = {
@@ -77,11 +78,13 @@ app.post("/", (req, res) => {
     cards.push({
       id: Date.now(),
       title: blogTitle,
+      subtitle: blogSubTitle,
       content: blogContent
     });
   }
 
-  res.render('index', postData);
+  // Redirect to the home page after processing the form data
+  res.redirect('/');
 });
 
 // Route to render the cards page with mergedData

@@ -2,11 +2,11 @@
 
 
 <header class="masthead" style="background-image: url('assets/img/about-bg.jpg')">
-  <div class="container position-relative px-3 px-lg-5">
-      <div class="row gx-4 gx-lg-5 justify-content-center">
-          <div class="col-md-10 col-lg-8 col-xl-7">
-              <div class="page-heading">
-                  <h1>Create Blog</h1>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-md-10 col-lg-8 col-xl-7 text-center">
+            <div class="site-heading">
+                  <h1 class="text-warning lead">Create Blog</h1>
                   <span class="subheading">This is what you do.</span>
               </div>
           </div>
@@ -46,23 +46,23 @@
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
-              <form action="/" method="POST">
-                <div class="form-group">
+              <form id="blogForm" action="/submit-form" method="POST">
+                <div class=" text-warning form-group">
                   <label for="blogTitle">Blog Title</label>
                   <input type="text" name="blogTitle" class="form-control" id="blogTitle" placeholder="Title">
                 </div>
                 
-                <div class="form-group">
+                <div class="text-warning form-group">
                   <label for="blogSubTitle">Blog SubTitle</label>
                   <input type="text" name="blogSubTitle" class="form-control" id="blogSubTitle" placeholder="SubTitle">
                 </div>
 
-                <div class="form-group">
+                <div class="text-warning form-group">
                   <label for="blogContent">Blog Content</label>
                   <textarea class="form-control" name="blogContent" id="blogContent" rows="3" placeholder="blog"></textarea>
                 </div>
                 
-                <button type="submit" class="btn btn-secondary">Submit</button>
+                <button id="submit" type="submit" class="btn btn-secondary">Submit</button>
               </form>
             </div>
         </div>
@@ -72,44 +72,3 @@
 <!-- Footer-->
 
 
-<footer class="border-top">
-  <div class="container px-4 px-lg-5">
-      <div class="row gx-4 gx-lg-5 justify-content-center">
-          <div class="col-md-10 col-lg-8 col-xl-7">
-              <ul class="list-inline text-center">
-                  <li class="list-inline-item">
-                      <a href="#!">
-                          <span class="fa-stack fa-lg">
-                              <i class="fas fa-circle fa-stack-2x"></i>
-                              <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
-                          </span>
-                      </a>
-                  </li>
-                  <li class="list-inline-item">
-                      <a href="#!">
-                          <span class="fa-stack fa-lg">
-                              <i class="fas fa-circle fa-stack-2x"></i>
-                              <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i>
-                          </span>
-                      </a>
-                  </li>
-                  <li class="list-inline-item">
-                      <a href="#!">
-                          <span class="fa-stack fa-lg">
-                              <i class="fas fa-circle fa-stack-2x"></i>
-                              <i class="fab fa-github fa-stack-1x fa-inverse"></i>
-                          </span>
-                      </a>
-                  </li>
-              </ul>
-              <div class="small text-center text-muted fst-italic">Copyright &copy; Your Website 2023</div>
-          </div>
-      </div>
-  </div>
-</footer>
-<!-- Bootstrap core JS-->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Core theme JS-->
-<script src="js/scripts.js"></script>
-</body>
-</html>

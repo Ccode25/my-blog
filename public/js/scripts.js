@@ -3,121 +3,55 @@
 * Copyright 2013-2023 Start Bootstrap
 * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-clean-blog/blob/master/LICENSE)
 */
-window.addEventListener('DOMContentLoaded', () => {
+$(document).ready(function() {
     let scrollPos = 0;
-    const mainNav = document.getElementById('mainNav');
-    const headerHeight = mainNav.clientHeight;
-    window.addEventListener('scroll', function() {
-        const currentTop = document.body.getBoundingClientRect().top * -1;
-        if ( currentTop < scrollPos) {
+    const mainNav = $('#mainNav');
+    const headerHeight = mainNav.height();
+
+    $(window).on('scroll', function() {
+        const currentTop = $(document).scrollTop();
+        if (currentTop < scrollPos) {
             // Scrolling Up
-            if (currentTop > 0 && mainNav.classList.contains('is-fixed')) {
-                mainNav.classList.add('is-visible');
+            if (currentTop > 0 && mainNav.hasClass('is-fixed')) {
+                mainNav.addClass('is-visible');
             } else {
                 console.log(123);
-                mainNav.classList.remove('is-visible', 'is-fixed');
+                mainNav.removeClass('is-visible is-fixed');
             }
         } else {
             // Scrolling Down
-            mainNav.classList.remove(['is-visible']);
-            if (currentTop > headerHeight && !mainNav.classList.contains('is-fixed')) {
-                mainNav.classList.add('is-fixed');
+            mainNav.removeClass('is-visible');
+            if (currentTop > headerHeight && !mainNav.hasClass('is-fixed')) {
+                mainNav.addClass('is-fixed');
             }
         }
         scrollPos = currentTop;
     });
-})
 
-// $(document).ready(function () {
-//     $('#mybutton').on('click', function (e) {
-//         e.preventDefault();
-//         $('#card-holder .row').append(
-//             `<div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-//                 <div class="text-dark card card-has-bg click-col" style="background-image:url('https://source.unsplash.com/600x900/?computer,design')">
-//                     <img alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?" class="card-img d-none" src="https://source.unsplash.com/600x900/?computer,design">
-//                     <div class="card-img-overlay d-flex flex-column">
-//                         <div class="card-body">
-//                             <small class="card-meta mb-2">Thought Leadership</small>
-//                             <h4 class="card-title mt-0">
-//                                 <a class="text-dark" href="https://creativemanner.com">Design Studio Lorem Ipsum Sit Amet Consectetur dipisi?</a>
-//                             </h4>
-//                             <small><i class="far fa-clock"></i> October 15, 2020</small>
-//                         </div>
-//                         <div class="card-footer">
-//                             <a class="btn btn-dark button-round" href="form">Add Post</a>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>`
-//         );
-//     });
-// });
-
-// function createCardHtml(card) {
-//     return `
-//         <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-//                 <div class="text-dark card card-has-bg click-col" style="background-image:url('https://source.unsplash.com/600x900/?computer,design')">
-//                     <img alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?" class="card-img d-none" src="https://source.unsplash.com/600x900/?computer,design">
-//                     <div class="card-img-overlay d-flex flex-column">
-//                         <div class="card-body">
-//                             <small class="card-meta mb-2">Thought Leadership</small>
-//                             <h4 class="card-title mt-0">
-//                                 <a class="text-dark" href="https://creativemanner.com">Design Studio Lorem Ipsum Sit Amet Consectetur dipisi?</a>
-//                             </h4>
-//                             <small><i class="far fa-clock"></i> October 15, 2020</small>
-//                         </div>
-//                         <div class="card-footer">
-//                             <a class="btn btn-dark button-round" href="form">Add Post</a>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//     `;
-// }
-
-// // Fetch existing cards HTML and append to the card-container
-// $.get('/cards', function(cardHtml) {
-//     $('#card-container').append(cardHtml);
-// });
-
-// // Handle "Create post" click event
-// $('#mybutton').click(function(event) {
-//     event.preventDefault(); // Prevent the default link behavior
-
-//     const newCard = { title: 'Card 2', content: 'Content for card 2' };
-    
-//     // Create new card HTML and append to card-container
-//     const newCardHtml = createCardHtml(newCard);
-//     $('#card-container').append(newCardHtml);
-// });
-
-
-// $(document).ready(function() {
-//     // Function to create a card HTML from card data
-function createCardHtml(card) {
-    return `
-    <div class="col-lg-4 col-md-6 col-sm-12 mb-4" id="card-${card.id}">
-        <div class="text-dark card card-has-bg click-col" style="background-image:url('https://source.unsplash.com/600x900/?computer,design')">
-            <img alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?" class="card-img d-none" src="https://source.unsplash.com/600x900/?computer,design">
-            <div class="card-img-overlay d-flex flex-column">
-                <div class="card-body">
-                    <small class="card-meta mb-2">Thought Leadership</small>
-                    <h4 class="card-title mt-0">
-                        <a class="text-dark" href="https://creativemanner.com">${card.title}</a>
-                    </h4>
-                    <small><i class="far fa-clock"></i> October 15, 2020</small>
+    // Function to create a card HTML from card data
+    function createCardHtml(card) {
+        const shortContent = card.content.length > 100 ? card.content.substring(0, 100) + '...' : card.content;
+        return `
+            <div class="col-lg-4 col-md-6 col-sm-12 mb-4" id="card-${card.id}">
+                <div class="text-dark card card-has-bg click-col" style="background-image:url('https://source.unsplash.com/600x900/?computer,design')">
+                    <img alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?" class="card-img d-none" src="https://source.unsplash.com/600x900/?computer,design">
+                    <div class="card-img-overlay d-flex flex-column">
+                        <div class="card-body">
+                            <small class="card-meta mb-2">${ card.subtitle}</small>
+                            <h4 class="card-title mt-0">
+                                <a class="text-dark" href="#">${card.title}</a>
+                            </h4>
+                            <p>${shortContent}</p>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-dark button-round read-more" data-id="${card.id}" data-title="${card.title}" data-content="${card.content}">Read More</button>
+                            <button class="btn btn-danger button-round delete-card" data-id="${card.id}">Delete</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-footer">
-                    <a class="btn btn-dark button-round" href="">Read</a>
-                    <button class="btn btn-danger button-round delete-card" data-id="${card.id}">Delete</button>
-                </div>
-            </div>
-        </div>
-    </div>`; 
-}
+            </div>`;
+    }
 
-
-$(document).ready(function() {
     // Fetch existing cards HTML and append to the card-container
     $.get('/cards-data', function(cardsData) {
         cardsData.forEach(card => {
@@ -126,17 +60,19 @@ $(document).ready(function() {
         });
     });
 
-    // Handle "Create post" click event
-    $().click(function(event) {
-        event.preventDefault(); // Prevent the default link behavior
+    // Handle form submission
+    $('#blogForm').on('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
         // Extract data from form inputs
         const title = $('#blogTitle').val();
         const content = $('#blogContent').val();
+        const subtitle = $('#blogSubTitle').val();
 
         const newCard = {
             title: title,
-            content: content
+            content: content,
+            subtitle: subtitle
         };
 
         // Send new card data to the server
@@ -150,6 +86,9 @@ $(document).ready(function() {
                     // Create new card HTML and append to card-container
                     const newCardHtml = createCardHtml({ ...newCard, id: response.id });
                     $('#card-container').append(newCardHtml);
+
+                    // Reset the form
+                    $('#blogForm')[0].reset();
                 }
             }
         });
@@ -172,5 +111,18 @@ $(document).ready(function() {
                 }
             }
         });
+    });
+
+    // Handle read more click event
+    $('#card-container').on('click', '.read-more', function() {
+        const title = $(this).data('title');
+        const content = $(this).data('content');
+        
+        // Set the modal title and content
+        $('#readMoreModalLabel').text(title);
+        $('#modalContent').text(content);
+
+        // Show the modal
+        $('#readMoreModal').modal('show');
     });
 });

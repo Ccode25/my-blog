@@ -6,8 +6,8 @@
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7 text-center">
                         <div class="site-heading">
-                            <h1><%= titlePost %> </h1>
-                            <span class="subheading"></span>
+                            <h1 class="text-warning lead"><%= titlePost %> </h1>
+                            <span class="subheading"><%= subTitlePost %></span>
                         </div>
                     </div>
                 </div>
@@ -76,11 +76,11 @@
                 </div>
             </div>
         </div> -->
-        <section class="bg-gradient wrapper">
+        <section class="content-header wrapper">
             <div class="container">
                 <div class="row">
                     <div class="col text-center mb-5">
-                        <h1 class="display-4 content-header">Blog Post</h1>
+                        <h1 class="display-4 content-header text-warning">Blog Post</h1>
                         <p class="lead">Lorem ipsum dolor sit amet at enim hac integer volutpat maecenas pulvinar.</p>
                     </div>
                 </div>
@@ -91,6 +91,27 @@
                 </div>
             </div>
         </section>
+
+        <!-- Modal -->
+<div class="modal fade" id="readMoreModal" tabindex="-1" aria-labelledby="readMoreModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="readMoreModalLabel">Post Title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="modalContent">Post content will be displayed here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
         
           
 
