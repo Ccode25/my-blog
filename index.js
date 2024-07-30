@@ -14,24 +14,6 @@ let postData = {
 // Define the cards array to store card data
 let cards = [];
 
-// Function to merge postData and cards into mergedData
-const getMergedData = () => {
-  let mergedData = [
-    { id: 0, title: postData.titlePost, subtitle: postData.subTitlePost, content: postData.contentPost }
-  ];
-
-  cards.forEach(card => {
-    mergedData.push({
-      id: card.id,
-      title: card.title,
-      subtitle: card.subtitle,
-      content: card.content
-    });
-  });
-
-  return mergedData;
-};
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.set('view engine', 'ejs');
@@ -44,17 +26,17 @@ app.get("/", (req, res) => {
 
 // Route to render the about page with post data
 app.get("/about", (req, res) => {
-  res.render('about', postData);
+  res.render('about');
 });
 
 // Route to render the post page with post data
 app.get("/post", (req, res) => {
-  res.render('post', postData);
+  res.render('post');
 });
 
 // Route to render the contact page with post data
 app.get("/contact", (req, res) => {
-  res.render('contact', postData);
+  res.render('contact');
 });
 
 // Route to render the form page
@@ -87,11 +69,7 @@ app.post("/submit-form", (req, res) => {
   res.redirect('/');
 });
 
-// Route to render the cards page with mergedData
-app.get('/cards', (req, res) => {
-  const mergedData = getMergedData();
-  res.render('cards', { cards: mergedData });
-});
+
 
 // API route to send card data as JSON
 app.get('/cards-data', (req, res) => {
