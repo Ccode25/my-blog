@@ -1,9 +1,4 @@
-/*!
-* Start Bootstrap - Clean Blog v6.0.9 (https://startbootstrap.com/theme/clean-blog)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-clean-blog/blob/master/LICENSE)
-*/
-$(document).ready(function() {
+
     let scrollPos = 0;
     const mainNav = $('#mainNav');
     const headerHeight = mainNav.height();
@@ -15,7 +10,6 @@ $(document).ready(function() {
             if (currentTop > 0 && mainNav.hasClass('is-fixed')) {
                 mainNav.addClass('is-visible');
             } else {
-                console.log(123);
                 mainNav.removeClass('is-visible is-fixed');
             }
         } else {
@@ -37,7 +31,7 @@ $(document).ready(function() {
                     <img alt="Creative Manner Design Lorem Ipsum Sit Amet Consectetur dipisi?" class="card-img d-none" src="https://source.unsplash.com/600x900/?computer,design">
                     <div class="card-img-overlay d-flex flex-column">
                         <div class="card-body">
-                            <small class="card-meta mb-2">${ card.subtitle}</small>
+                            <small class="card-meta mb-2">${card.subtitle}</small>
                             <h4 class="card-title mt-0">
                                 <a class="text-dark" href="#">${card.title}</a>
                             </h4>
@@ -52,65 +46,45 @@ $(document).ready(function() {
             </div>`;
     }
 
-    // Fetch existing cards HTML and append to the card-container
-    $.get('/cards-data', function(cardsData) {
-        cardsData.forEach(card => {
-            const cardHtml = createCardHtml(card);
-            $('#card-container').append(cardHtml);
-        });
+    async function fetchCardsData() {
+        try {
+            const response = await axios.get('/cards-data');
+            return response.data; // JSON data is already parsed
+        } catch (error) {
+            console.error('Error fetching cards data:', error);
+            return [];
+        }
+    }
+
+    $(document).ready(async function() {
+        try {
+            // Fetch the cards data
+            const cardsData = await fetchCardsData();
+    
+            // Iterate over each card and append the HTML to the card-container
+            cardsData.forEach(card => {
+                const cardHtml = createCardHtml(card);
+                $('#card-container').append(cardHtml);
+            });
+        } catch (error) {
+            console.error('Error displaying cards:', error);
+        }
     });
 
-    // Handle form submission
-    $('#blogForm').on('submit', function(event) {
-        event.preventDefault(); // Prevent the default form submission
-
-        // Extract data from form inputs
-        const title = $('#blogTitle').val();
-        const content = $('#blogContent').val();
-        const subtitle = $('#blogSubTitle').val();
-
-        const newCard = {
-            title: title,
-            content: content,
-            subtitle: subtitle
-        };
-
-        // Send new card data to the server
-        $.ajax({
-            url: '/add-card',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(newCard),
-            success: function(response) {
-                if (response.success) {
-                    // Create new card HTML and append to card-container
-                    const newCardHtml = createCardHtml({ ...newCard, id: response.id });
-                    $('#card-container').append(newCardHtml);
-
-                    // Reset the form
-                    $('#blogForm')[0].reset();
-                }
-            }
-        });
-    });
-
-    // Handle delete card click event
-    $('#card-container').on('click', '.delete-card', function() {
+   
+    $('#card-container').on('click', '.delete-card', async function() {
         const cardId = $(this).data('id');
 
-        // Send delete request to the server
-        $.ajax({
-            url: `/delete-card/${cardId}`,
-            type: 'DELETE',
-            success: function(response) {
-                if (response.success) {
-                    console.log('Card deleted successfully.');
-
-                    // Remove the card from the UI
-                    $(`#card-${cardId}`).remove();
-                }
+        try {
+            const response = await axios.delete(`/delete-card/${cardId}`);
+            if (response.data.success) {
+                console.log('Card deleted successfully.');
+                // Remove the card from the UI
+                $(`#card-${cardId}`).remove();
             }
-        });
+        } catch (error) {
+            console.error('Error deleting card:', error);
+        }
     });
 
     // Handle read more click event
@@ -125,4 +99,3 @@ $(document).ready(function() {
         // Show the modal
         $('#readMoreModal').modal('show');
     });
-});

@@ -15,7 +15,7 @@ let postData = {
 let cards = [];
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
 
@@ -77,13 +77,13 @@ app.get('/cards-data', (req, res) => {
   console.log(cards);
 });
 
-// API route to add a new card
-app.post('/add-card', (req, res) => {
-  const newCard = req.body;
-  newCard.id = Date.now(); // Assign a unique ID to the new card
-  cards.push(newCard);
-  res.json({ success: true, id: newCard.id });
-});
+// // API route to add a new card
+// app.post('/add-card', (req, res) => {
+//   const newCard = req.body;
+//   newCard.id = Date.now(); // Assign a unique ID to the new card
+//   cards.push(newCard);
+//   res.json({ success: true, id: newCard.id });
+// });
 
 // API route to delete a card by ID
 app.delete('/delete-card/:id', (req, res) => {
